@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+    @import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap');
+
+    body {
+        overflow-x: hidden ;
+        margin-bottom: 200px;
+        }
+    #bg1 {
+        background-color: #FFD78C;
+        position: absolute;
+        width: 100%;
+        height: 684px;
+        margin-top: -10px;
+        margin-left: -8px;
+    }
+    #bg2 {
+        background-image: url(img/space.jpg);
+        position: absolute;
+        width: 100%;
+        height: 684px;
+        top: 684px;
+    }
+    #tonk {
+        position: absolute;
+        width: 250px;
+        margin: 20px;
+        top: 12px;
+        left: 20px;
+        
+    }
+    #bg {
+        background-image: url(img/paper.jpg);
+        width: 1300px;
+        height: 400px;
+        position: absolute;
+        left: 116px;
+        top: 55px;
+    }
+    #wings {
+        width: 250px;
+        position: absolute;
+        left: 365px;
+        top: 32px;
+    }
+    #spag {
+        width: 248px;
+        position: absolute;
+        left: 685px;
+        top: 34px;
+    }
+    #pizza {
+        width: 258px;
+        position: absolute;
+        left: 1000px;
+        top: 33px;
+
+    }
+    #p1 {
+        font-family: 'Amatic SC', sans-serif;
+        font-size: 45px;
+        position: absolute;
+        bottom: -200px;
+    }
+    .justify {
+        text-align: justify;
+        text-justify: inter-word;
+    }
+    #gif {
+        position: absolute;
+        width: 450px;
+        left: 500px;
+        top: 80px;
+
+    }
+    #ship {
+        position: absolute;
+        width: 500px;
+        left: -490px;
+        animation: 20s space linear infinite;
+    }
+    @keyframes space {
+        0% {
+            left: 1460px;
+            top: 100px;
+        }
+        40% {
+            left: 600px;
+            top: 200px;
+        }
+        60% {
+            left: -600px;
+            top: 400px;
+        }
+    }
+    #p2 {
+        font-family: 'Press Start 2P', system-ui;
+        color: white;
+        position: absolute;
+        top: 450px;
+        width: 1300px;
+        font-size: 28px;
+        left: 110px;
+
+    }
+</style>
+<body>
+    <div id="bg1">
+    <div id="bg">
+    <img id="tonk" src="img/tonk.jpg">
+    <img id="wings" src="img/wings.jpg">
+    <img id="spag" src="img/spag.jpg">
+    <img id="pizza" src="img/pizza.jpg">
+    <p id="p1" class="justify">I really enjoy cooking as a hobby. It's a fun way for me to be creative 
+        and make tasty dishes by mixing ingredients and trying out different flavors and cooking methods in my kitchen.</p>
+    </div>
+    <div id="bg2">
+        <img src="img/game.gif" id="gif">
+        <img src="img/ship.png" id="ship">
+        <p id="p2" class="justify">
+            I enjoy gaming as a hobby because it's a fun way to explore new worlds, solve puzzles,
+             and connect with friends online. It's a simple pleasure that keeps me entertained and engaged.</p>
+    </div>
+</div>
+</body>
+</html>
