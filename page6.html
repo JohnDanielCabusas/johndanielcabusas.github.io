@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savanna Ecosystem</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        .component {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .component:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .component.active p {
+            display: block;
+        }
+
+        .component p {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>BIOTICS</h1>
+    </header>
+    <div class="container">
+        <section id="herbivores">
+            <h2>HERBIVORES</h2>
+            <div class="component">
+                <h3>ZEBRA</h3>
+                <p>Zebras play a crucial role in the savanna ecosystem. As primary consumers, they primarily feed on grasses, shaping vegetation structure and nutrient cycling. They are also significant prey for carnivores, impacting predator populations and trophic interactions. Additionally, zebras contribute to nutrient cycling by consuming plant material and redistributing nutrients through grazing and browsing activities, ultimately affecting soil fertility and plant productivity in savannas.</p>
+            </div>
+            <div class="component">
+                <h3>BUFFALO</h3>
+                <p>Buffalo herds can cause notable ecological changes in the veld. As large grazers, they play a key role in transforming tall grasslands into shorter, grassy areas, creating conditions suitable for other animals that prefer to browse selectively.
+                </p>
+            </div>
+            <div class="component">
+                <h3>GRASSHOPPER</h3>
+                <p>These herbivorous insects are common in savannas and play a role in consuming vegetation.</p>
+            </div>
+            <div class="component">
+                <h3>BEETLES </h3>
+                <p>These beetles feed on plant material such as leaves, stems, and fruits, making use of the abundant vegetation in the savanna.</p>
+            </div>
+        </section>
+
+
+        <section id="carnivores">
+            <h2>CARNIVORES</h2>
+            <div class="component">
+                <h3>LION</h3>
+                <p>Lions are the apex predators that primarily hunt large herbivores...</p>
+            </div>
+            <div class="component">
+                <h3>LEOPARD</h3>
+                <p>Solitary hunters known for their stealth and agility, preying on a variety of animals including antelopes, monkeys, and birds.</p>
+            </div>
+            <div class="component">
+                <h3>HYENA</h3>
+                <p>Opportunistic scavengers and hunters that feed on carrion as well as hunting in groups, targeting animals ranging from small mammals to large ungulates.</p>
+            </div>
+            <div class="component">
+                <h3>SECRETARY BIRD</h3>
+                <p>The Secretarybird in the savanna ecosystem primarily acts as a top predator, controlling populations of small mammals and reptiles, thus helping to maintain ecological balance.</p>
+            </div>
+            <div class="component">
+                <h3>VULTURE</h3>
+                <p>Primarily act as scavengers, feeding on carrion and cleaning up carcasses. They help prevent the spread of disease by consuming dead animals and play a crucial role in maintaining the ecosystem's cleanliness and health.</p>
+            </div>
+            
+        </section>
+        <section id="omnivores">
+            <h2>OMNIVORES</h2>
+            <div class="component">
+                <h3>BABOON</h3>
+                <p>Baboons contribute to seed dispersal by consuming various fruits...</p>
+            </div>
+            <!-- Other omnivores -->
+        </section>
+        <section id="decomposers">
+            <h2>DECOMPOSERS</h2>
+            <div class="component">
+                <h3>TERMITES</h3>
+                <p>Termites play a vital role in breaking down woody plant material...</p>
+            </div>
+            <!-- Other decomposers -->
+        </section>
+    </div>
+
+    <script>
+        document.querySelectorAll('.component').forEach(item => {
+            item.addEventListener('click', event => {
+                event.currentTarget.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
