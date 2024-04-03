@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Components</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background-color: #f5f5f5;
+  }
+  .container {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    animation: fadeInUpBig 1s ease;
+  }
+  h1 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 700;
+    font-size: 2.5rem;
+    animation: fadeInDown 1s ease;
+  }
+  hr {
+    border: none;
+    border-top: 2px solid #ccc;
+    margin: 20px 0;
+  }
+  .component {
+    margin-bottom: 30px;
+    animation: fadeIn 1s ease;
+    cursor: pointer;
+    border: 2px solid #ccc;
+    padding: 15px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+  }
+  .component:hover {
+    background-color: #f9f9f9;
+    transform: scale(1.02);
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  }
+  .component-title {
+    color: #555;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+  }
+  .component-description {
+    display: none; /* Initially hidden */
+    color: #666;
+    line-height: 1.6;
+    font-size: 1rem;
+  }
+  #tree {
+    position: absolute;
+    z-index: -1;
+    width: 4000px;
+    left: -400px;
+    top: 1400px;
+  
+  }
+  #arrow {
+    position: fixed;
+    width: 70px;
+    left: 1430px;
+    top: 690px;
+    z-index: 1;
+  }
+  #arrow:hover {
+    cursor: pointer;
+  }
+  #arrow1 {
+    position: fixed;
+    width: 70px;
+    left: 36px;
+    top: 690px;
+    z-index: 1;
+    transform: scaleX(-1);
+  }
+  #arrow1:hover {
+    cursor: pointer;
+  }
+  #bird {
+    width: 250px;
+    position: absolute;
+    right: -300px;
+    animation: bird infinite 18s 2s;
+    top: 150px;
+  }
+  @keyframes bird {
+    0% {
+        right: -300px;
+    }
+    100% {
+        right: 1700px;
+    }
+  }
+</style>
+</head>
+<body>
+  <img src="img/arrow.png" id="arrow1" onclick="back()">
+  <img src="img/arrow.png" id="arrow" onclick="next()">
+    <img id="bird" src="img/bird.gif">
+    <img src="img/tree.png" id="tree">
+<div class="container">
+  <h1 class="animate__animated animate__fadeInDown">ABIOTICS</h1>
+  <hr class="animate__animated animate__fadeIn">
+  <div class="component animate__animated animate__fadeIn" onclick="toggleContent('grass')">
+    <div class="component-title">GRASS</div>
+    <div class="component-description" id="grass-content">
+      Grasses are the primary vegetation in the savanna ecosystem, with a mix of tall and short varieties. Savannas typically serve as a transition between forests and grasslands. While they contain trees like forests, unlike forests, the ground in savannas is mainly covered by grasses.
+      <br><br>
+      <strong>ROLE OF THE COMPONENT:</strong><br>
+      <ul>
+        <li>Primary Producers: Grasses in the savanna ecosystem provide an ideal habitat for grazing animals like cows and zebras, helping to control grass growth.</li>
+        <li>Habitat and Shelter: Grasses in the savanna ecosystem offer shelter for insects, small mammals, and reptiles, while also providing protection against predators.</li>
+        <li>Soil Stabilization: It helps prevent soil erosion by anchoring the soil with the roots of the plants.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="component animate__animated animate__fadeIn" onclick="toggleContent('temperature')">
+    <div class="component-title">TEMPERATURE</div>
+    <div class="component-description" id="temperature-content">
+      The climate of the savanna is a significant factor. Temperatures typically range from 68° to 86°F (20 to 30°C), with a warm climate. Savannas are found in regions with a 4–6 month dry winter season and a 6–8 month wet summer season. 
+      <br><br>
+      <strong>ROLE OF THE COMPONENT:</strong><br>
+      <ul>
+        <li>Climate Regulation: Savannas are characterized by distinct wet and dry seasons. Temperature variations influence the timing and intensity of these seasons. High temperatures during the dry season contribute to evaporation and moisture loss from soils and vegetation, leading to arid conditions.</li>
+        <li>Water Availability: Temperature affects the rate of evaporation from soil and vegetation surfaces. High temperatures increase evaporation rates, contributing to water loss from the ecosystem. Conversely, lower temperatures can reduce evaporation, helping to conserve moisture in the soil and supporting plant survival during dry periods.</li>
+        <li>Animal Behavior: Temperature influences the behavior and activity patterns of savanna animals. Many species are adapted to cope with hot temperatures, employing strategies such as seeking shade, reducing activity during the hottest parts of the day, or migrating to areas with more favorable conditions.</li>
+      </ul>
+    </div>
+  </div>
+
+<div class="component animate__animated animate__fadeIn" onclick="toggleContent('sunlight')">
+    <div class="component-title">SUNLIGHT</div>
+    <div class="component-description" id="sunlight-content">
+        Sunlight is a critical abiotic factor in savanna ecosystems, influencing various aspects of plant growth, ecosystem dynamics, and biodiversity.
+        <br><br>
+      <strong>ROLE OF THE COMPONENT:</strong><br>
+      <ul>
+        <li>Plant Growth and Productivity: Sunlight availability directly influences the growth, development, and productivity of plants in savannas. Plants in savannas have adaptations to optimize light capture, such as broad leaves, tall stems, and efficient photosynthetic mechanisms, allowing them to thrive under varying light conditions.</li>
+        <li>Photosynthesis: Sunlight is essential for photosynthesis, the process by which plants convert carbon dioxide and water into carbohydrates and oxygen. In savannas, where vegetation is abundant during the wet season, sunlight provides the energy needed for photosynthesis, supporting plant growth and productivity.</li>
+        <li>Temperature Regulation: Sunlight contributes to temperature regulation in savanna ecosystems, influencing diurnal and seasonal temperature patterns. Solar radiation heats the Earth's surface, leading to temperature gradients that influence microclimatic conditions, water evaporation rates, and ecosystem processes in savannas.</li>
+      </ul>
+    </div>
+    </div>
+    
+    <div class="component animate__animated animate__fadeIn" onclick="toggleContent('scattered')">
+        <div class="component-title">SCATTERED TREES</div>
+        <div class="component-description" id="scattered-content">
+            Trees in the savanna ecosystem are scattered across the landscape, with species like Acacia and Baobab. They provide food and shelter for animals, withstand drought, and often have thorns for protection.
+            <br><br>
+          <strong>ROLE OF THE COMPONENT:</strong><br>
+          <ul>
+            <li>Provide Food and Shelter:  Acacia trees offer food and shelter for a wide range of animals, including insects, birds, and mammals. Their leaves, pods, and flowers serve as important food sources for herbivores.</li>
+            <li>Nurse Trees: Acacia trees often act as nurse trees, providing shade and protection for young plants to establish themselves in the harsh savanna environment.</li>
+            <li>Soil Erosion Prevention: The extensive root systems of acacia trees help stabilize the soil, reducing erosion in the savanna ecosystem.</li>
+          </ul>
+        </div>
+        </div>
+
+        <div class="component animate__animated animate__fadeIn" onclick="toggleContent('soil')">
+            <div class="component-title">SOIL</div>
+            <div class="component-description" id="soil-content">
+                In savanna ecosystems, soil plays a crucial role in supporting the unique vegetation and wildlife adapted to this environment. The soil composition and its functions in savannas can vary depending on factors such as climate, topography, and vegetation cover.
+                <br><br>
+              <strong>ROLE OF THE COMPONENT:</strong><br>
+              <ul>
+                <li>Nutrients: Savanna soils may vary in nutrient content, with some regions being nutrient-rich while others are nutrient-poor. Nutrients such as nitrogen, phosphorus, and potassium are essential for plant growth and are supplied to the soil through weathering of rocks, decomposition of organic matter, and biological processes. Soil nutrients influence the diversity and distribution of plant species in savannas.</li>
+                <li>Microorganisms: Soil in savannas hosts a diverse community of microorganisms, including bacteria, fungi, and protozoa. Thesemicroorganisms play vital roles in nutrient cycling, decomposition of organic matter, and soil fertility. They also contribute to the formation of soil aggregates, which improves soil structure and stability.</li>
+                <li>Soil Erosion Control: Soil in savannas plays a critical role in controlling erosion, particularly during periods of heavy rainfall or strong winds. The presence of vegetation roots and soil organic matter helps bind soil particles together, reducing erosion rates and maintaining soil stability.</li>
+              </ul>
+            </div>
+            </div>
+
+            <div class="component animate__animated animate__fadeIn" onclick="toggleContent('water')">
+                <div class="component-title">WATER</div>
+                <div class="component-description" id="water-content">
+                    water is a fundamental element that shapes the structure and functioning of the savanna ecosystem, influencing the distribution of plants and animals, regulating fire dynamics, and contributing to local climate patterns.
+                    <br><br>
+                  <strong>ROLE OF THE COMPONENT:</strong><br>
+                  <ul>
+                    <li>Supporting Plant Growth: While savannas are typically known for their grasslands, they also contain scattered trees and shrubs. Water availability determines the distribution and abundance of plant species in the savanna. During the wet season, water allows for the growth of grasses, which are a primary food source for many herbivores. Trees and shrubs also benefit from the water, enabling them to grow and reproduce.                    </li>
+                    <li>Providing Habitats: Water sources such as rivers, streams and waterholes are essential habitats for various wildlife species in the savanna. These water bodies support diverse communities of animals, including mammals, birds, reptiles, and amphibians.</li>
+                    <li>Migration and Seasonal Movements: Water availability influences the movements of wildlife in the savanna. Many animals undertake seasonal migrations in search of water and food, following the patterns of rainfall and vegetation growth. Water acts as a magnet, drawing animals to specific areas where it is available, thereby shaping their behavior and movement patterns.</li>
+                  </ul>
+                </div>
+                </div>
+
+                <div class="component animate__animated animate__fadeIn" onclick="toggleContent('shrubs')">
+                    <div class="component-title">SHRUBS</div>
+                    <div class="component-description" id="shrubs-content">
+                        Shrubs play multifaceted roles in savanna ecosystems, contributing to habitat provision, biodiversity maintenance, soil stability, nutrient cycling, and resilience to environmental disturbances. Their presence and characteristics significantly influence the structure and functioning of savanna habitats, highlighting their importance for ecosystem health and sustainability.
+                        <br><br>
+                      <strong>ROLE OF THE COMPONENT:</strong><br>
+                      <ul>
+                        <li>abitat and Shelter: Shrubs provide habitat and shelter for a wide range of wildlife species, including birds, small mammals, reptiles, and insects. The dense canopy and woody structure of shrubs offer protection from predators, harsh weather conditions, and direct sunlight.</li>
+                        <li>Nutrient Cycling: Shrubs play a role in nutrient cycling by absorbing nutrients from the soil through their roots and releasing them back into the environment through leaf litter decomposition. The cycling of nutrients helps maintain soil fertility and supports the growth of other vegetation within the savanna ecosystem.</li>
+                      </ul>
+                    </div>
+                    </div>
+
+
+  </div>
+</div>
+
+<script>
+  function toggleContent(componentId) {
+    var content = document.getElementById(componentId + '-content');
+    content.style.display = (content.style.display === 'none' || content.style.display === '') ? 'block' : 'none';
+  }
+  function next() {
+    window.location.href="page6.html"
+  }
+  function back() {
+    window.location.href="page4.html"
+  }
+</script>
+
+</body>
+</html>
