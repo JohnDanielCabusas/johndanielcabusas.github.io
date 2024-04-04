@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savanna Ecosystem</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+            background-image: url(img/bg6.png);
+            background-repeat: no-repeat;
+            background-size: 100%;
+            background-attachment: fixed ;
+            overflow-x: hidden;
+        }
+
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        .component {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .component:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .component.active p {
+            display: block;
+        }
+
+        .component p {
+            display: none;
+        }
+        #arrow {
+    position: fixed;
+    width: 70px;
+    left: 1430px;
+    top: 690px;
+    z-index: 1;
+  }
+  #arrow:hover {
+    cursor: pointer;
+  }
+  #arrow1 {
+    position: fixed;
+    width: 70px;
+    left: 36px;
+    top: 690px;
+    z-index: 1;
+    transform: scaleX(-1);
+  }
+  #arrow1:hover {
+    cursor: pointer;
+  }
+  #text1 {
+    font-family: "Exo 2", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 720;
+  font-size: 45px;
+  font-style: normal;
+  text-align: center;
+ 
+
+  }
+  h2 {
+    font-family: "Kanit", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 29px;
+  }
+  p {
+    font-family: "Kanit", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 18px;
+  }
+  h3 {
+    font-size: 20px;
+  }
+  #zeb {
+    position: fixed;
+    bottom: -12px;
+    width: 300px;
+    left: 1500px;
+    animation: zebra infinite 30s 3s;
+    z-index: -1;
+  }
+  @keyframes zebra {
+    0% {
+        left: 1500px;
+    }
+    100% {
+        left: -800px;
+    }
+  }
+  #vult {
+    position: fixed;
+    width: 170px;
+    top: 80px;
+    animation: vult infinite 20s 7s;
+    left: 1500px;
+    z-index: -1;
+  }
+  @keyframes vult {
+    0% {left: 1500px;
+    }
+    100% {
+        left: -800px;
+    }
+  }
+  #lion {
+    position: fixed;
+    width: 360px;
+    left: 1500px;
+    top: 610px;
+    z-index: -1;
+    animation: lion infinite 23s 9s;
+  }
+  @keyframes lion {
+    0% {
+        left: 1500px;
+    }
+    100% {
+        left: -800px;
+    }
+  }
+  #navi {
+    position: fixed;
+    display: inline;
+    list-style-type: none ;
+    left: -25px;
+    font-size: 20px;
+    font-family: "Secular One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  top: -8px;
+  }
+  li {
+    float: left;
+    padding: 8px;
+  }
+  li a {
+    display: block;
+    color: black;
+    text-decoration: none;
+    padding: 4px;
+  }
+  li a:hover {
+    transition: ease-in-out 0.2s;
+    box-shadow: 2px 2px 20px 5px black;
+    transform: scale(1.1, 1.1);
+    cursor: pointer;
+    background-color: white;
+    color: black;
+    padding: 4px;
+  }
+    </style>
+</head>
+<body>
+    <ul id="navi">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="references.html">References</a></li>
+        <li><a href="about.html">About Us</a></li>
+    </ul>
+    <img src="img/lion.gif" id="lion">
+    <img src="img/vulture.gif" id="vult">
+    <img src="img/arrow.png" id="arrow1" onclick="back()">
+  <img src="img/arrow.png" id="arrow" onclick="next()">
+    
+        <h1 id="text1">BIOTICS</h1>
+    <img id="zeb" src="img/zeb.gif">
+    <div class="container">
+        <section id="herbivores">
+            <h2>HERBIVORES</h2>
+            <div class="component">
+                <h3>ZEBRA</h3>
+               
+                <p>Zebras play a crucial role in the savanna ecosystem. As primary consumers, they primarily feed on grasses, shaping vegetation structure and nutrient cycling. They are also significant prey for carnivores, impacting predator populations and trophic interactions. Additionally, zebras contribute to nutrient cycling by consuming plant material and redistributing nutrients through grazing and browsing activities, ultimately affecting soil fertility and plant productivity in savannas.</p>
+            </div>
+            <div class="component">
+                <h3>BUFFALO</h3>
+                <p>Buffalo herds can cause notable ecological changes in the veld. As large grazers, they play a key role in transforming tall grasslands into shorter, grassy areas, creating conditions suitable for other animals that prefer to browse selectively.
+                </p>
+            </div>
+            <div class="component">
+                <h3>GRASSHOPPER</h3>
+                <p>These herbivorous insects are common in savannas and play a role in consuming vegetation.</p>
+            </div>
+            <div class="component">
+                <h3>BEETLES </h3>
+                <p>These beetles feed on plant material such as leaves, stems, and fruits, making use of the abundant vegetation in the savanna.</p>
+            </div>
+        </section>
+
+
+        <section id="carnivores">
+            <h2>CARNIVORES</h2>
+            <div class="component">
+                <h3>LION</h3>
+                <p>Lions are the apex predators that primarily hunt large herbivores...</p>
+            </div>
+            <div class="component">
+                <h3>LEOPARD</h3>
+                <p>Solitary hunters known for their stealth and agility, preying on a variety of animals including antelopes, monkeys, and birds.</p>
+            </div>
+            <div class="component">
+                <h3>HYENA</h3>
+                <p>Opportunistic scavengers and hunters that feed on carrion as well as hunting in groups, targeting animals ranging from small mammals to large ungulates.</p>
+            </div>
+            <div class="component">
+                <h3>SECRETARY BIRD</h3>
+                <p>The Secretarybird in the savanna ecosystem primarily acts as a top predator, controlling populations of small mammals and reptiles, thus helping to maintain ecological balance.</p>
+            </div>
+            <div class="component">
+                <h3>VULTURE</h3>
+                <p>Primarily act as scavengers, feeding on carrion and cleaning up carcasses. They help prevent the spread of disease by consuming dead animals and play a crucial role in maintaining the ecosystem's cleanliness and health.</p>
+            </div>
+            
+        </section>
+        <section id="omnivores">
+            <h2>OMNIVORES</h2>
+            <div class="component">
+                <h3>BABOON</h3>
+                <p>Baboons contribute to seed dispersal by consuming various fruits and seeds and spreading them through their feces, fostering plant regeneration and enhancing savanna vegetation diversity. Their selective foraging behavior further influences plant structure and composition, shaping the distribution and abundance of plant species within their habitat.
+                </p>
+            </div>
+            <div class="component">
+                <h3>OSTRICH</h3>
+                <p>Ostriches, as herbivorous birds, play a crucial role in the savanna ecosystem by controlling grass growth through their feeding habits. By primarily consuming grasses, seeds, and insects, they prevent vegetation from becoming overly dense, creating open areas that benefit other grazing animals.
+                </p>
+            </div>
+            <div class="component">
+                <h3>JACKALS</h3>
+                <p>Jackals, as opportunistic predators, contribute significantly to the savanna ecosystem's balance and health. By feeding on small mammals, birds, insects, and carrion, they act as scavengers, preventing the spread of disease and maintaining environmental hygiene.</p>
+            </div>
+            <div class="component">
+                <h3>OSTRICH</h3>
+                <p>Ostriches, as herbivorous birds, play a crucial role in the savanna ecosystem by controlling grass growth through their feeding habits. By primarily consuming grasses, seeds, and insects, they prevent vegetation from becoming overly dense, creating open areas that benefit other grazing animals.
+                </p>
+            </div>
+            <!-- Other omnivores -->
+        </section>
+        <section id="decomposers">
+            <h2>DECOMPOSERS</h2>
+            <div class="component">
+                <h3>TERMITES</h3>
+                <p>Termites play a vital role in breaking down woody plant material, contributing to the decomposition process and soil fertility.</p>
+            </div>
+            <div class="component">
+                <h3>MICRO ORGANISMS</h3>
+                <p>microorganisms in savanna ecosystems play essential roles in nutrient cycling, decomposition, soil fertility, plant health, and ecosystem resilience. Understanding the functions and interactions of these microorganisms is crucial for effective conservation and management of savanna habitats.</p>
+            </div>
+            <!-- Other decomposers -->
+        </section>
+    </div>
+
+    <script>
+        document.querySelectorAll('.component').forEach(item => {
+            item.addEventListener('click', event => {
+                event.currentTarget.classList.toggle('active');
+            });
+        });
+  function toggleContent(componentId) {
+    var content = document.getElementById(componentId + '-content');
+    content.style.display = (content.style.display === 'none' || content.style.display === '') ? 'block' : 'none';
+  }
+  function next() {
+    window.location.href="references.html"
+  }
+  function back() {
+    window.location.href="page5.html"
+  }
+    </script>
+</body>
+</html>

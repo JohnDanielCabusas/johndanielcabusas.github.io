@@ -1,0 +1,308 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&family=Secular+One&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Savanna Biome</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-image: url('img/bg1.jpg'); 
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  #sun, #soil, #bush, #zebra {
+    position: absolute;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+  }
+  #tumb {
+    width: 200px;
+    filter: brightness(50%);
+    position: absolute;
+    top: 620px;
+    left: -160px;
+    animation: tumb infinite 8s 8s;
+  }
+  #sun {
+    top: 40%;
+    left: 54%;
+    opacity: 15%;
+  }
+  
+  #soil {
+    top: 90%;
+    left: 10%;
+  }
+  
+  #bush {
+    top: 94%;
+    left: 87%;
+    z-index: 1;
+  }
+  #zebra {
+    top: 72%;
+    left: 40%;
+    opacity: 20%;
+  }
+  .hidden {
+    display: none;
+  }
+  #bird {
+    width: 250px;
+    position: absolute;
+    right: -300px;
+    animation: bird infinite 18s 2s;
+    top: 150px;
+  }
+  
+  #sun-text {
+    position: absolute;
+    top: 10%;
+    left: 3%;
+    width: 700px;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+  #soil-text {
+    position: absolute;
+    top: 60%;
+    left: 37%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+  #bush-text {
+    position: absolute;
+    top: 50%;
+    left: 59%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+  #zebra-text {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+  #shr {
+    position: absolute;
+    width: 600px;
+    top: 570px;
+    left: 1000px;
+  }
+  #navi {
+    position: absolute;
+    display: inline;
+    list-style-type: none ;
+    left: -25px;
+    font-size: 20px;
+    font-family: "Secular One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  top: -8px;
+  }
+  li {
+    float: left;
+    padding: 8px;
+  }
+  li a {
+    display: block;
+    color: black;
+    text-decoration: none;
+    padding: 4px;
+  }
+  li a:hover {
+    transition: ease-in-out 0.2s;
+    box-shadow: 2px 2px 20px 5px black;
+    transform: scale(1.1, 1.1);
+    cursor: pointer;
+    background-color: white;
+    color: black;
+    padding: 4px;
+  }
+  #bird {
+    width: 250px;
+    position: absolute;
+    right: -300px;
+    animation: bird infinite 18s 2s;
+    top: 150px;
+  }
+  #girf {
+    position: absolute;
+    width: 400px;
+    right: -350px;
+    top: 570px;
+    filter: brightness(50%);
+    animation: lion infinite 12s 10s;
+  }
+  @keyframes bird {
+    0% {
+        right: -300px;
+    }
+    100% {
+        right: 1700px;
+    }
+  }
+  @keyframes lion {
+    0% {
+        right: -350px;
+    }
+    100% {
+        right: 1700px;
+    }
+  }
+  @keyframes tumb {
+    0% {
+      left: -140px;
+    }
+    100% {
+      left: 1600px;
+      transform: rotate(360deg);
+    }
+  }
+  #arrow {
+    position: absolute;
+    width: 70px;
+    left: 1430px;
+    top: 690px;
+    z-index: 1;
+  }
+  #arrow:hover {
+    cursor: pointer;
+  }
+  #arrow1 {
+    position: absolute;
+    width: 70px;
+    left: 36px;
+    top: 690px;
+    z-index: 1;
+    transform: scaleX(-1);
+  }
+  #arrow1:hover {
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+  <img src="img/arrow.png" id="arrow1" onclick="back()">
+  <img src="img/arrow.png" id="arrow" onclick="next()">
+  <img id="tumb" src="img/tumb.png">
+    <img id="girf" src="img/lion.gif">
+    <img id="bird" src="img/bird.gif">
+    <ul id="navi">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="references.html">References</a></li>
+        <li><a href="about.html">About Us</a></li>
+
+    </ul>
+<div id="sun" onclick="toggleText('sun-text')">☀️</div>
+<div id="soil" onclick="toggleText('soil-text')">🌱</div>
+<div id="bush" onclick="toggleText('bush-text')">🌿</div>
+<div id="zebra" onclick="toggleText('zebra-text')">🦓</div>
+
+<div id="sun-text" class="hidden">
+  <h2>Sunlight</h2>
+  <p>Sunlight is a critical abiotic factor in savanna ecosystems, influencing various aspects of plant growth, ecosystem dynamics, and biodiversity.
+    .</p>
+    <h2>Role of the Component</h2>
+    <p>Plant Growth and Productivity: Sunlight availability directly influences the growth, development, and productivity of plants in savannas. Plants in savannas have adaptations to optimize light capture, such as broad leaves, tall stems, and efficient photosynthetic mechanisms, allowing them to thrive under varying light conditions.
+       <br><br> Photosynthesis: Sunlight is essential for photosynthesis, the process by which plants convert carbon dioxide and water into carbohydrates and oxygen. In savannas, where vegetation is abundant during the wet season, sunlight provides the energy needed for photosynthesis, supporting plant growth and productivity.
+       <br><br> Temperature Regulation: Sunlight contributes to temperature regulation in savanna ecosystems, influencing diurnal and seasonal temperature patterns. Solar radiation heats the Earth's surface, leading to temperature gradients that influence microclimatic conditions, water evaporation rates, and ecosystem processes in savannas.
+        </p>
+</div>
+
+<div id="soil-text" class="hidden">
+  <h2>Soil</h2>
+  <p>In savanna ecosystems, soil plays a crucial role in supporting the unique vegetation and wildlife adapted to this environment. The soil composition and its functions in savannas can vary depending on factors such as climate, topography, and vegetation cover.</p>
+  <h2> Role Of the Component</h2>
+  <p>
+      Nutrients: Savanna soils may vary in nutrient content, with some regions being nutrient-rich while others are nutrient-poor. Nutrients such as nitrogen, phosphorus, and potassium are essential for plant growth and are supplied to the soil through weathering of rocks, decomposition of organic matter, and biological processes. Soil nutrients influence the diversity and distribution of plant species in savannas.
+      <br><br>Microorganisms: Soil in savannas hosts a diverse community of microorganisms, including bacteria, fungi, and protozoa. These microorganisms play vital roles in nutrient cycling, decomposition of organic matter, and soil fertility. They also contribute to the formation of soil aggregates, which improves soil structure and stability.
+      <br><br>Soil Erosion Control: Soil in savannas plays a critical role in controlling erosion, particularly during periods of heavy rainfall or strong winds. The presence of vegetation roots and soil organic matter helps bind soil particles together, reducing erosion rates and maintaining soil stability.
+      </p>
+</div>
+
+<div id="bush-text" class="hidden">
+  <h2>Shrubs</h2>
+  <p>Shrubs play multifaceted roles in savanna ecosystems, contributing to habitat provision, biodiversity maintenance, soil stability, nutrient cycling, and resilience to environmental disturbances. Their presence and characteristics significantly influence the structure and functioning of savanna habitats, highlighting their importance for ecosystem health and sustainability. </p>
+  <h2>Role of the Component</h2>
+  <p>Habitat and Shelter: Shrubs provide habitat and shelter for a wide range of wildlife species, including birds, small mammals, reptiles, and insects. The dense canopy and woody structure of shrubs offer protection from predators, harsh weather conditions, and direct sunlight.
+    <br><br>Nutrient Cycling: Shrubs play a role in nutrient cycling by absorbing nutrients from the soil through their roots and releasing them back into the environment through leaf litter decomposition. The cycling of nutrients helps maintain soil fertility and supports the growth of other vegetation within the savanna ecosystem.
+    <br><br>Nutrient Cycling: Shrubs play a role in nutrient cycling by absorbing nutrients from the soil through their roots and releasing them back into the environment through leaf litter decomposition. The cycling of nutrients helps maintain soil fertility and supports the growth of other vegetation within the savanna ecosystem.
+    </p>
+</div>
+<div id="zebra-text" class="hidden">
+    <h2>Zebra</h2>
+    <p>Zebras are key components of savanna ecosystems, contributing to biodiversity, nutrient cycling, and trophic interactions that shape the structure and function of these dynamic habitats. Understanding the ecological roles and adaptations of zebras is essential for conservation and management efforts aimed at preserving savanna biodiversity and ecosystem integrity.</p>
+   <h2>Role of the Component</h2>
+   <p>Herbivory: Zebras are primary consumers in savanna food webs, feeding predominantly on grasses and occasionally on other herbaceous plants. Their grazing behavior influences vegetation structure, species composition, and nutrient cycling in savannas, shaping the dynamics of plant communities.
+    <br><br>Prey Base: Zebras serve as important prey for carnivores such as lions, hyenas, and leopards in savannas. Their abundance and distribution influence predator populations, predator-prey dynamics, and trophic interactions within savanna food webs.
+    <br><br>Nutrient Cycling: Zebras play a role in nutrient cycling by consuming plant material and returning nutrients to the soil through excretion. Their grazing and browsing activities contribute to the redistribution of nutrients across the landscape, influencing soil fertility and plant productivity in savannas.
+    </p>
+  </div>
+  <img id="shr" src="img/shrub.png">
+<script>
+  function toggleText(id) {
+    var text = document.getElementById(id);
+    if (text.classList.contains('hidden')) {
+      text.classList.remove('hidden');
+    } else {
+      text.classList.add('hidden');
+    }
+  }
+  function next() {
+    window.location.href="page2.html"
+  }
+  function back() {
+    window.location.href="index.html"
+  }
+
+  window.onload = function() {
+    var savannaText = document.createElement('div');
+    savannaText.innerHTML = '<h1>SAVANNA ECOSYSTEM</h1>';
+    savannaText.style.position = 'absolute';
+    savannaText.style.top = '50%';
+    savannaText.style.left = '50%';
+    savannaText.style.transform = 'translate(-50%, -50%)';
+    savannaText.style.color = 'white';
+    savannaText.style.textShadow = '2px 2px 10px black';
+    savannaText.style.fontSize = '3rem';
+    savannaText.style.textAlign = 'center';
+    savannaText.style.opacity = '0';
+
+    document.body.appendChild(savannaText);
+
+    setTimeout(function() {
+      savannaText.style.opacity = '1';
+      setTimeout(function() {
+        savannaText.style.opacity = '0';
+        setTimeout(function() {
+          savannaText.remove();
+        }, 1000); 
+      }, 3000); 
+    }, 100); 
+  };
+</script>
+</body>
+</html>
