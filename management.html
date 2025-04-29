@@ -1,0 +1,2131 @@
+<?php include '../Backend/db_connect.php';  ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Management</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background-color: #f5f5f5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .header {
+      color: #333;
+      position: relative;
+    }
+    .header h1 {
+      font-size: 28px;
+      font-weight: 600;
+      color: #333;
+      position: absolute;
+      margin-top: 40px;
+      margin-left: 87px;
+    }    
+    .controls {
+      display: flex;
+      gap: 10px;
+      margin-left: 1109px;
+      margin-bottom: 25px;
+      margin-top: 89px;
+      transition: 0.1s ease-in-out;
+    }
+    .controls button:active {
+      transform: scale(0.92, 0.92);
+    }
+    
+    .btn {
+      padding: 8px 16px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background-color 0.2s;
+      box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.4);
+    }
+    
+    .btn-primary {
+      background-color: #2c5e1a;
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background-color: #234a15;
+      box-shadow: 0px 0px 4px 0.8px black;
+
+    }
+    
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid #ddd;
+    }
+    
+    .btn-outline:hover {
+      background-color: #f0f0f0;
+      box-shadow: 0px 0px 4px 0.8px black;
+
+    }
+    .modal {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+    .modal-content {
+      background: #fff;
+      color: #000;
+      padding: 20px;
+      width: 700px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px #000;
+      display: flex;
+      flex-direction: column;
+    }
+    .modal-header h2 {
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .modal-body {
+      margin-top: 10px;
+    }
+    .form-row {
+      display: flex;
+      flex-direction: column;
+      margin: 10px 0;
+    }
+    .form-row label {
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .form-row input {
+      padding: 6px;
+      background-color: #ddd;
+      border: none;
+      border-radius: 5px;
+    }
+    .modal-footer {
+      margin-top: 20px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .modal-footer .cancel-yellow {
+      background-color: #2c5e1a ;
+      color: white;
+    }
+    .modal-footer .cancel-yellow:hover {
+      background-color: #234a15 ;
+      box-shadow: 0px 0px 4px 0.6px black;
+    }
+    .modal-footer button {
+      padding: 8px 14px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    #facultyLoadingContainer {
+      display: none;
+      position: fixed;
+      padding-top: 20px;
+      top: 0px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 100;
+      overflow: auto;
+    }
+    #dtrContainer {
+      display: none;
+      position: fixed;
+      padding-top: 20px;
+      top: 0px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 100;
+      overflow: auto;
+      
+    }
+    #arContainer {
+      display: none;
+      position: fixed;
+      padding-top: 20px;
+      top: 0px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 100;
+      overflow: auto;
+    }
+    #dtr {
+      background-color: white;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 900px;
+      margin: 90px auto;
+      padding: 20px;
+      position: relative;
+    }
+    #ar {
+      background-color: white;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+      position: relative;
+    }
+    #facultyLoadingForm {
+      background-color: white;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 900px;
+      margin: 90px auto;
+      padding: 20px;
+      position: relative;
+        }
+    .form-header {
+      background-color: #2e422c;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      border-radius: 5px 5px 0 0;
+      margin: -20px -20px 20px -20px;
+    }
+    .back-button {
+      background-color: white;
+      color: #3c5d3b;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 29px;
+      font-weight: bold;
+      cursor: pointer;
+      position: absolute;
+      top: 11px;
+      left: 20px;
+    }
+    .back-button:hover {
+      box-shadow: 0px 0px 5px 2px black;
+    }
+    #back-arr {
+      margin-top: -7px;
+    }
+    .back-button1 {
+      background-color: white;
+      color: #3c5d3b;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 29px;
+      font-weight: bold;
+      cursor: pointer;
+      position: absolute;
+      top: 5px;
+      left: 20px;
+    }
+    .back-button1:hover {
+      box-shadow: 0px 0px 5px 2px black;
+    }
+    #back-arr1 {
+      margin-top: -3px;
+      margin-left: 7px;
+    }
+    .options-container {
+      display: flex;
+      justify-content: space-between;
+      margin: 30px 0;
+    }
+    .option-card {
+      background-color: #e6da7e;
+      color: #333;
+      border-radius: 10px;
+      padding: 30px;
+      width: 45%;
+      margin-left: 30px;
+      margin-right: 30px;
+      text-align: center;
+      display: flx1ex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      border: 3px solid #1a2a0d;
+      transition: 0.2s ease-in-out;
+    }
+    .option-card:hover {
+      transform: scale(1.04, 1.04);
+      cursor: pointer;
+      box-shadow: 0px 1px 10px 1px black;
+
+    }
+    .option-card h3 {
+      font-size: 24px;
+      margin: 15px 0;
+    }
+    .option-card p {
+      margin-bottom: 25px;
+      
+    }
+    .option-icon {
+      font-size: 40px;
+      color: #2e422c;
+      margin-bottom: 10px;
+    }
+    .option-button {
+      background-color: #2e422c;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 25px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    
+    #yearSelectionContainer {
+      display: none;
+      background-color: #f1f1f1;
+      width: 100%;
+      padding: 0;
+      border-radius: 10px;
+    }
+   
+    
+    .year-header h3 {
+      margin: 0;
+      color: white;
+    }
+    
+    .folder-container {
+      display: flex;
+      padding: 20px;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+    
+    .folder {
+      width: 100px;
+      text-align: center;
+      cursor: pointer;
+    }
+    
+    .folder-icon {
+      width: 100px;
+      height: 80px;
+      background-color: #e6da7e;
+      border-radius: 5px 5px 0 0;
+      position: relative;
+      margin-bottom: 5px;
+    }
+    
+    .folder-icon:before {
+      content: "";
+      position: absolute;
+      width: 40%;
+      height: 10px;
+      background-color: #e6da7e;
+      top: -10px;
+      left: 0;
+      border-radius: 5px 5px 0 0;
+    }
+    
+    .folder-label {
+      color: black;
+      font-weight: bold;
+    }
+    
+    #monthSelectionContainer {
+      display: none;
+      width: 100%;
+      padding: 0;
+      border-radius: 10px;
+    }
+    
+    
+    .month-header {
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 5px 5px 0 0;
+      margin-top: -50px;
+      margin-bottom: 20px;
+    }
+    
+    .month-list {
+      background-color: rgb(245, 248, 243);
+      border-radius: 0 0 5px 5px;
+      padding: 10px;
+    }
+    
+    .month-item {
+      background-color: white;
+      color: #333;
+      padding: 15px;
+      margin: 5px 0;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    
+    .month-item:hover {
+      background-color: #f0e68c;
+    }
+    
+    #formViewContainer {
+      display: none;
+      background-color: #f1f1f1;
+      border-radius: 5px;
+      padding: 20px;
+      margin-bottom: 50px;
+    }
+
+    
+    .form-subtitle {
+      text-align: center;
+      color: #333;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    
+    .form-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    
+    .form-info-group {
+      display: flex;
+      gap: 120px;
+    }
+    
+    .form-info-label {
+      font-weight: bold;
+      color: #000;
+    }
+    
+    .form-info-value {
+      color: #000;
+    }
+    
+    .form-section {
+      margin-top: 20px;
+    }
+    
+    .form-section-title {
+      color: #000;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    
+    .form-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    .form-table th, .form-table td {
+      border: 1px solid #aaa;
+      padding: 10px;
+      color: #000;
+      background-color: #fff;
+    }
+    
+    .form-table th {
+      background-color: #eee;
+    }
+    
+    .export-button {
+      background-color: #415e3f;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      float: right;
+      margin-top: 37px;
+    }
+    
+    .folder-icon, .month-item {
+      transition: transform 0.2s;
+    }
+    
+    .folder:hover .folder-icon, .month-item:hover {
+      transform: scale(1.05);
+    }
+    
+    .action-buttons {
+      border-radius: 5px;
+      margin-top: 10px;
+      padding-top: 14px;
+      margin-bottom: 25px;
+      margin-left: 550px;
+    }
+    
+    .action-buttons button {
+      background-color: white;
+      color: black;
+      border: none;
+      padding: 8px 16px;
+      margin-right: 5px;
+      border-radius: 4px;
+      cursor: pointer;
+      box-shadow: 0px 0px 2px rgb(0, 0, 0, 0.7);
+    }
+    .action-buttons button:hover {
+      box-shadow: 0px 0px 4px 1px black;
+    }
+    #createNewForm {
+      display: none;
+      background-color: #415e3f;
+      width: 100%;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+    
+    .form-title {
+      background-color: #2e422c;
+      color: white;
+      padding: 10px;
+      width: 901px;
+      text-align: center;
+      margin-bottom: 15px;
+      margin-left: -20px;
+      margin-top: -23px;
+      border-top-right-radius: 8px;
+      border-top-left-radius:  8px;
+      height: 57px;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 20px;
+
+    }     
+    #createNewFormContainer {
+    background-color: #f2f5ed;
+    width: 104.7%;
+    height: 620px;
+    border-radius: 5px;
+    padding: 0;
+    position: relative;
+    z-index: 100;
+    margin-top: -150px;
+    margin-left: -20px;
+    }
+  
+    .form-underline {
+      border-bottom: 2px solid purple;
+      margin-bottom: 20px;
+      width: 100%;
+    }
+  
+    .form-info-row {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+  
+    .form-info-group {
+      display: flex;
+      align-items: center;
+      margin-right: 30px;
+      margin-bottom: 10px;
+    }
+  
+    .form-info-label {
+      font-weight: bold;
+      color: #000;
+      margin-right: 5px;
+    }
+  
+    .form-info-value input,
+    .form-info-value select {
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      background-color: #ddd;
+    }
+  
+    .form-group-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+  
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-width: 200px;
+      margin-right: 15px;
+      margin-left: 10px;
+    }
+  
+    .form-group label {
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #000;
+    }
+  
+    .form-group input,
+    .form-group select {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      background-color: #ddd;
+    }
+  
+    .date-range {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+  
+    .date-range input {
+      flex: 1;
+    }
+  
+    .schedule-container {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+  
+    .class-type {
+      display: flex;
+      gap: 15px;
+    }
+  
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin: 20px 0;
+    }
+  
+    .set-button {
+      background-color: #415e3f;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 30px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  
+    .schedule-table {
+      margin-top: 20px;
+      border-top: 1px solid #ccc;
+      padding-top: 20px;
+    }
+  
+    .schedule-table-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #000;
+    }
+  
+   #class-schedule {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+    }
+  
+    #class-schedule th,
+    #class-schedule td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+      color: #000;
+    }
+  
+    #class-schedule th {
+      background-color: #eee;
+    }
+  
+    #newFormContent {
+      padding: 20px;
+    }
+    #eye {
+      width: 70px;
+      margin-bottom: -30px;
+    }
+    #nav-top {
+      background: linear-gradient(to right, #2c5e1a, #1d3d11);
+      color: white;
+      padding: 10px 20px;
+        display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 69px;
+    }
+  #logo {
+    width: 43px;
+    position: relative;
+    top: -1px;
+
+  }
+  #top-text {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.7px;
+    position: relative;
+    left: -147px;
+    top: -10px;
+    z-index: 100;
+  }
+  #top-text2 {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.7px;
+    position: relative;
+    left: -481.3px;
+    top: 9px;
+    z-index: 100;
+    color: yellow;
+  }
+  #line {
+    width: 180px;
+    position: relative;
+    left: -743.3px;
+  }
+  #profile {
+    position: relative;
+    background-color: black;
+    width: 50px;
+    height: 50px;
+    right: -130px;
+  }
+  .dropdown-nav {
+    position: relative;
+    display: inline-block;
+    left: -17px;
+  }
+
+  .dropdown-button-nav {
+    background-color: #f5f5f5;
+    color: #1d3d11;
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+  }
+
+  .dropdown-button::after {
+    content: "▼";
+    margin-left: 8px;
+    font-size: 12px;
+  }
+
+  .dropdown-content-nav {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 4px;
+    overflow: hidden;
+    left: -21.3px;
+  }
+
+  .dropdown-content-nav a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+
+  .dropdown-content-nav a:hover {
+    background-color: #f1f1f1;
+  }
+
+  .dropdown-nav:hover .dropdown-content-nav {
+    display: block;
+  }
+  .table-container {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      overflow: visible;
+      max-width: 1380px;
+      margin: 0 auto;
+      position: relative;
+  }
+    
+  table {
+      width: 1350px;
+      border-collapse: collapse;
+  }
+  #save {
+    left: -1px;
+  }
+  #cancel {
+    left: -1px;
+    width: 67px;
+    justify-content: center;
+    align-items: center;
+  }
+    
+  th {
+    background-color: #f9f9f9;
+    text-align: center;
+    padding: 15px 20px;
+    text-align: left;
+    font-weight: 600;
+    color: #555;
+    border-bottom: 1px solid #eee;
+  }
+    
+  th:last-child {
+      text-align: center;
+  }
+    
+  td {
+    padding: 15px 20px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+  }
+    
+  td:last-child {
+    text-align: center;
+    position: relative;
+  }
+    
+  tr:last-child td {
+    border-bottom: none;
+  }
+    
+  tr:hover {
+    background-color: #f9f9f9;
+  }
+  
+  .progress-dropdown {
+    width: 100%;
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 2px solid transparent;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    background-color: white;
+    color: #333;
+    cursor: pointer;
+    appearance: none;
+    background-repeat: no-repeat;
+    background-position: right 12px center; 
+  }
+
+  .progress-dropdown.completed {
+    background-color: #d4edda;
+    color: #28a745;
+  }
+
+  .progress-dropdown.in-progress {
+    background-color: #e0f0ff;
+    color: #0d6efd;
+  }
+
+  .progress-dropdown.pending {
+    background-color: #fff3cd;
+    color: #ffc107;
+  }
+
+  .progress-dropdown option {
+    background-color: white;
+    color: #333;
+  }
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+  }
+    
+  .dropdown button {
+    padding: 8px 16px;
+    border-radius: 4px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 14px;
+    min-width: 80px;
+    text-align: center;
+  }
+    
+  .dropdown button:hover {
+    background-color: #f4f2f2;
+
+  }
+    
+  .dropdown::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 10px; 
+    display: block;
+  }
+    
+  .dropdown-container {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding-top: 5px; 
+    display: none;
+    z-index: 10;
+  }
+    
+  .dropdown:hover .dropdown-container {
+    display: block;
+  }
+    
+  .dropdown-content {
+    min-width: 200px;
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    text-align: left;
+  }
+    
+  tr:last-child .dropdown .dropdown-container {
+    top: auto;
+    bottom: 100%;
+    padding-top: 0;
+    padding-bottom: 5px;
+  }
+    
+  tr:last-child .dropdown::after {
+    top: auto;
+    bottom: 100%;
+  }
+    
+  .dropdown-content a {
+    display: block;
+    padding: 12px 16px;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.2s;
+  }
+    
+  .dropdown-content a:hover {
+    background-color: #f4f2f2;
+  }
+ 
+  #yearh3 {
+    margin-bottom: -128px;    
+  }
+  
+  .form-title-pt {
+    text-align: center;
+    font-weight: bold;
+  }
+
+  #txt-arr2 {
+    margin-top: -7px;
+  }
+  
+  .create-dtr-container {
+    background-color: #f2f5ed;
+    width: 70.7%;
+    height: 500px;
+    border-radius: 5px;
+    padding-top: 50px;
+    position: relative;
+    z-index: 100;
+    margin-top: -370px;
+    margin-left: 230px;
+  }
+        
+  .create-dtr-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #2e422c;
+    width: 100%;
+    margin-top: -50px;
+    height: 60px;
+    justify-content: center;
+    align-items: center;
+  }
+   
+  .create-dtr-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;         
+  }
+        
+  .divider {
+    height: 1px;
+    background-color: #ccc;
+    margin-bottom: 20px;
+  }
+  .create-dtr-box {
+    border: 1px solid #999;
+    height: 250px;
+    margin-bottom: 20px;
+    background-color: white;
+    width: 1000px;
+    margin-left: 40px;
+  }
+        
+  .pagination {
+    margin-left: 932px;
+    margin-bottom: 20px;
+    margin-top: -10px;
+  }
+        
+  .avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #e6ce9c;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+        
+  .page-indicator {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+  }
+        
+  .page-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid #999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 5px;
+    color: #888;
+    cursor: pointer;
+  }
+        
+  .file-upload {
+    margin-bottom: 20px;
+  }
+        
+        .upload-label {
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: block;
+            color: #333;
+            margin-left: 41px;
+        }
+        
+        .upload-container {
+            display: flex;
+            align-items: center;
+            width: 910px;
+            margin-left: 41px;
+        }
+        
+        .browse-button {
+            padding: 5px 10px;
+            background-color: #e9e9e9;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        
+        .file-status {
+            flex: 1;
+            padding: 6px 10px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            color: #666;
+        }
+        
+        .send-button {
+            background-color: #5c7f34;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            float: right;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin-top: -60px;
+            margin-right: 41px;
+        }
+        
+        .send-button:hover {
+            background-color: #4c6a2c;
+        }
+        
+        .create-ar-container {
+      position: fixed;
+      padding-top: 20px;
+      top: 0px;
+      height: 100%;
+      width: 100%;
+      left: 0px;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 100;
+      overflow: auto;
+      display: none ;
+    }
+  
+    .create-ar-report-section {
+      padding: 20px 30px;
+      background-color: #f9f9f9;
+      margin-left: 200px;
+      margin-right: 200px;
+      margin-top: -55px;
+      border-bottom-left-radius: 15px;
+      border-bottom-right-radius: 15px;
+      height: 500px;
+    }
+    
+    .create-ar-header {
+      background-color: #2e422c;
+      color: white;
+      padding-top: 12.2px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      width: 73.85%;
+      margin-left: 200px;
+      margin-top: 60px;
+      border-top-right-radius: 15px;
+      border-top-left-radius: 15px;
+      height: 75px;
+    }
+    
+    .create-ar-back-button {
+      display: inline-flex;
+      position: relative;   
+      left: 220px;
+      top: -64px;
+      align-items: center;
+      background-color: white;
+      color: #3c5d3b;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 29px;
+      font-weight: bold;
+      cursor: pointer;
+      justify-content: center;
+      transition: 0.1s ease-in-out;
+      font-size: 20px;
+    }
+    
+    .create-ar-back-button:hover {
+      background-color: #2c4a1d;
+    }
+
+    
+    .create-ar-report-title {
+      font-size: 22px;
+      margin-bottom: 20px;
+      color: #333;
+      padding-bottom: 10px;
+    }
+    
+    .create-ar-report-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+    
+    .create-ar-current-report {
+      font-size: 18px;
+      color: #444;
+    }
+    
+    .create-ar-report-date {
+      font-weight: bold;
+      color: #3a6027;
+    }
+    
+    .create-ar-status-section {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 5px 10px;
+      background-color: #f0f0f0;
+      color: #555;
+    }
+    
+    .create-ar-table-container {
+  margin: 20px 0;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  overflow: hidden;
+  position: absolute;
+  width: 1065px;
+}
+
+.create-ar-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.create-ar-table th,
+.create-ar-table td {
+  text-align: center; 
+  vertical-align: middle; 
+}
+    .create-ar-thead {
+      background-color: #4a7c32;
+      color: white;
+    }
+    
+    .create-ar-th, .create-ar-td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .create-ar-tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    
+    .create-ar-tbody tr:hover {
+      background-color: #f1f7ed;
+    }
+    
+    .create-ar-total-hours {
+      text-align: right;
+      margin-top: 270px;
+      font-weight: bold;
+      color: #333;
+      margin-right: 10px;
+      margin-bottom: 40px;
+    }
+    
+    .create-ar-action-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    
+    .create-ar-button {
+      padding: 8px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      position: relative;
+      left: 30px;
+    }
+
+    
+    .create-ar-update-btn {
+      background-color: #4a7c32;
+      color: white;
+    }
+    
+    .create-ar-update-btn:hover {
+      background-color: #3a6027;
+    }
+    
+    .create-ar-download-btn {
+      background-color: #fff;
+      color: #4a7c32;
+      border: 1px solid #4a7c32;
+    }
+    
+    .create-ar-download-btn:hover {
+      background-color: #f1f7ed;
+    }
+    
+    .create-ar-input, .create-ar-select {
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      width: 100%;
+    }
+    #create-ar-updateBtn {
+      left: -10px;
+      top: -20px;
+    }
+    #create-ar-downloadBtn {
+      left: -10px;
+      top: -20px;
+    }
+
+        
+  </style>
+</head>
+<body>
+  <nav id="nav-top">
+    <img id="logo" src="Logo.ico">
+    <h1 id="top-text">
+      Pamantasan ng Lungsod ng Pasig
+    </h1>
+    <h1 id="top-text2">University of Pasig</h1>
+    <hr id="line">
+    <img id="profile" src="">
+    <div class="dropdown-nav">
+      <button class="dropdown-button-nav">Username &nbsp; ▼</button>
+      <div class="dropdown-content-nav">
+          <a href="login.php">Logout</a>
+      </div>
+  </nav>
+  <div class="header">
+    <h1>Employee Management</h1>
+  </div>
+
+  <div class="controls">
+    <button class="btn btn-outline">Filter</button>
+    <button class="btn btn-outline">Export</button>
+    <button class="btn btn-outline">Sync</button>
+    <button class="btn btn-primary">+ Add New</button>
+  </div>
+
+  <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>EMPLOYEE ID</th>
+            <th>EMPLOYEE NAME</th>
+            <th>EMPLOYEE EMAIL</th> 
+            <th>PROGRESS NOTE</th>
+            <th>ACTION</th>
+          </tr>
+        </thead>
+        <tbody id="employee-table">
+          <tr>
+            <td>001</td>
+            <td>John Doe</td>
+            <td></td> <!--Employee Email -->
+            <td>
+              <select class="progress-dropdown">
+                <option value="completed" selected>Completed</option>
+                <option value="in-progress">In Progress</option>
+                <option value="pending">Pending</option>
+              </select>
+            </td>
+            <td>
+              <div class="dropdown">
+                <button>View</button>
+                <div class="dropdown-container">
+                  <div class="dropdown-content">
+                    <a href="#" class="faculty-loading-link">Faculty Loading Form</a>
+                    <a href="#" class="dtr-link">Daily Time Record</a>
+                    <a href="#" class="ar-link">Accomplishment Report</a>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td>
+  <button class="btn btn-outline" onclick="openUpdateModal('EMPLOYEE_ID')">Update</button>
+  <button class="btn btn-outline" onclick="deleteEmployee('EMPLOYEE_ID')">Delete</button>
+</td>
+
+          </tr>
+        </tbody>
+      </table>
+  </div>
+
+  <div id="employeeModal" style="display:none;" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>👤 Add new employee</h2>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+          <label>Employee Email</label>
+          <input type="text" value=""/>
+        </div>
+        <div class="form-row">
+          <label>First name</label>
+          <input type="text" value=""/>
+        </div>
+        <div class="form-row">
+          <label>Last name</label>
+          <input type="text" value="" />
+        </div>
+        <div class="form-row">
+          <label>Middle Initial</label>
+          <input type="text" value=""/>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button onclick="closeModal()">Cancel</button>
+        <button class="cancel-yellow" onclick="closeModal()">Add</button>
+      </div>
+    </div>
+  </div>
+  
+
+
+  <div id="facultyLoadingContainer">
+    <div id="facultyLoadingForm">
+      <button class="back-button" onclick="closeFacultyLoading()"><p id="back-arr">←</p></button>
+      <div class="form-header">
+        <h2>Faculty Loading Form</h2>
+      </div>
+      
+      <div class="options-container" id="mainOptionsContainer">
+        <div class="option-card" onclick="showCreateNewForm()">
+          <div class="option-icon">+</div>
+          <h3>CREATE NEW</h3>
+          <p>Create new Form Loading</p>
+        </div>
+       
+
+        <div class="option-card" onclick="showYearSelection()">
+          <div class="option-icon"><img id="eye" src="eye.png"> </div>
+          <h3>VIEW</h3>
+          <p>View previous Form Loading</p>
+        </div>
+      </div>
+      
+<div id="createNewFormContainer" style="display: none;">
+  <div class="back-button1" onclick="backToMainOptions()"><p id="back-arr1">←</p></div>
+  
+  <div id="newFormContent">
+    <div class="form-title">Faculty Loading Form</div>
+    
+    <div class="form-info-row">
+      <div class="form-info-group">
+        <div class="form-info-label">Name: </div>
+        <div class="form-info-value">
+          <input type="text" id="facultyName" placeholder="Enter name">
+        </div>
+      </div>
+      
+      <div class="form-info-group">
+        <div class="form-info-label">College/Department: </div>
+        <div class="form-info-value">
+          <input type="text" id="facultyDepartment" placeholder="Enter department">
+        </div>
+      </div>
+      
+      <div class="form-info-group">
+        <div class="form-info-label">Status: </div>
+        <div class="form-info-value">
+          <select id="facultyStatus">
+            <option value="Part-Timer">Part-Timer</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    
+    <div class="form-group-row">
+      <div class="form-group">
+        <label>Subject Code:</label>
+        <input type="text" id="subjectCode" placeholder="e.g. IT 301">
+      </div>
+      
+      <div class="form-group">
+        <label>Subject Description:</label>
+        <input type="text" id="subjectDescription" placeholder="e.g. Web Programming">
+      </div>
+      
+      <div class="form-group">
+        <label>For the period of:</label>
+        <div class="date-range">
+          <input type="date" id="periodStart">
+          <span>-</span>
+          <input type="date" id="periodEnd">
+        </div>
+      </div>
+    </div>
+    
+    <div class="form-group-row">
+      <div class="form-group">
+        <label>Day:</label>
+        <select id="classDay">
+          <option value="Monday">Monday</option>
+          <option value="Tuesday">Tuesday</option>
+          <option value="Wednesday">Wednesday</option>
+          <option value="Thursday">Thursday</option>
+          <option value="Friday">Friday</option>
+          <option value="Saturday">Saturday</option>
+          <option value="Sunday">Sunday</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Room:</label>
+        <input type="text" id="classRoom" placeholder="e.g. Lab 1">
+      </div>
+      
+      <div class="form-group">
+        <label>Section:</label>
+        <input type="text" id="classSection" placeholder="e.g. BSIT-2C">
+      </div>
+      
+      <div class="form-group">
+        <label>Schedule:</label>
+        <div class="schedule-container">
+          <div class="date-range">
+            <input type="time" id="scheduleStart">
+            <span>-</span>
+            <input type="time" id="scheduleEnd">
+          </div>
+          <div class="class-type">
+            <label><input type="checkbox" name="classType" value="Lecture"> Lecture</label>
+            <label><input type="checkbox" name="classType" value="Laboratory"> Laboratory</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="form-actions">
+      <button class="set-button" onclick="saveNewForm()">SET</button>
+    </div>
+    
+    <div class="schedule-table">
+      <div class="schedule-table-title">Schedule</div>
+      <table id="class-schedule">
+        <thead>
+          <tr>
+            <th>Subject Code</th>
+            <th>Description</th>
+            <th>Day</th>
+            <th>Room</th>
+            <th>Section</th>
+            <th>Time</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+      <div id="yearSelectionContainer">
+        <div class="year-header">
+          <button class="back-button" onclick="backToMainOptions()"><p id="txt-arr2">←</p></button>
+        </div>
+        <div class="action-buttons">
+          <button onclick="showActionMenu()">New</button>
+          <button onclick="showActionMenu()">Delete</button>
+          <button onclick="showActionMenu()">Rename</button>
+          <button onclick="showActionMenu()">Sort</button>
+        </div>
+        <div class="folder-container">
+          <div class="folder" onclick="showMonthSelection('2025')">
+            <div class="folder-icon"></div>
+            <div class="folder-label">2025</div>
+          </div>
+          <div class="folder" onclick="showMonthSelection('2024')">
+            <div class="folder-icon"></div>
+            <div class="folder-label">2024</div>
+          </div>
+          <div class="folder" onclick="showMonthSelection('2023')">
+            <div class="folder-icon"></div>
+            <div class="folder-label">2023</div>
+          </div>
+        </div>
+      </div>
+      
+      <div id="monthSelectionContainer">
+        <div class="month-header">
+          <button class="back-button" onclick="backToYearSelection()"><p id="txt-arr2">←</p></button>
+          <h3 id="yearh3">Year - 2025</h3>
+        </div>
+        <div class="action-buttons">
+          <button onclick="showActionMenu()">New</button>
+          <button onclick="showActionMenu()">Delete</button>
+          <button onclick="showActionMenu()">Rename</button>
+          <button onclick="showActionMenu()">Sort</button>
+        </div>
+        <div class="month-list">
+          <div class="month-item" onclick="showFormView('JANUARY')">First Semester</div>
+          <div class="month-item" onclick="showFormView('FEBRUARY')">Second Semester</div>
+        </div>
+      </div>
+      
+      <div id="formViewContainer">
+        <div class="month-header">
+          <button class="back-button" onclick="backToMonthSelection()"><p id="txt-arr2">←</p></button>
+        </div>
+        
+        <div class="form-content">
+          <div class="form-title-pt">PART-TIME OFFICIAL FACULTY LOADING FORM</div>
+          <div class="form-subtitle">SECOND SEMESTER A.Y 2022-2023</div>
+          
+          <div class="form-info">
+            <div class="form-info-group">
+              <div class="form-info-label">Name:</div>
+              <div class="form-info-value"></div>
+            </div>
+            <div class="form-info-group">
+              <div class="form-info-label">Status:</div>
+              <div class="form-info-value"></div>
+            </div>
+          </div>
+          
+          <div class="form-info">
+            <div class="form-info-group">
+              <div class="form-info-label">College/ Department:</div>
+              <div class="form-info-value"></div>
+            </div>
+            <div class="form-info-group">
+              <div class="form-info-label">Period:</div>
+              <div class="form-info-value"></div>
+            </div>
+          </div>
+          
+          <div class="form-section">
+            <div class="form-section-title">SCHEDULE</div>
+            <div style="background-color: white; height: 150px; border: 1px solid #aaa;"></div>
+          </div>
+          
+          <button class="export-button">Export</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="dtrContainer">
+    <div id="dtr">
+      <button class="back-button" onclick="closeFacultyLoading()">←</button>
+      <div class="form-header">
+        <h2>Daily Time Record</h2>
+      </div>
+      
+      <div class="options-container" id="mainOptionsContainer">
+        <div class="option-card" onclick="showCreateNewDtr()">
+          <div class="option-icon">+</div>
+          <h3>CREATE NEW</h3>
+          <p>Create new Daily Time Record</p>
+        </div>
+       
+
+        <div class="option-card" onclick="showYearSelection()">
+          <div class="option-icon"><img id="eye" src="eye.png"> </div>
+          <h3>VIEW</h3>
+          <p>View previous Data Time Record</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="create-dtr-container" id="createnewDtr" style="display: none;">
+    <div class="create-dtr-header">
+        <button class="back-button" onclick="backToMainOptions()">&#8592;</button>
+        <div class="create-dtr-title">Daily Time Record (DTR)</div>
+    </div>
+        
+    <div class="create-dtr-box"></div>
+    
+    <div class="pagination">
+        <div class="page-indicator">
+            <div class="page-text">Page 1 of 2</div>
+            <div class="page-icon">&#8594;</div>
+        </div>
+    </div>
+    
+    <div class="file-upload">
+        <label class="upload-label">Upload DTR</label>
+        <div class="upload-container">
+            <button class="browse-button">Browse...</button>
+            <div class="file-status">No file selected.</div>
+        </div>
+    </div>
+    
+    <button class="send-button">Send</button>
+</div>
+
+  <div id="arContainer">
+    <div id="ar">
+      <button class="back-button" onclick="closeFacultyLoading()">←</button>
+        <div class="form-header">
+          <h2>Accomplishment Report</h2>
+        </div>
+          
+        <div class="options-container" id="mainOptionsContainer">
+          <div class="option-card" onclick="showcreatenewAr()">
+            <div class="option-icon">+</div>
+            <h3>CREATE NEW</h3>
+            <p>Create new Accomplishment Report</p>
+          </div>
+           
+    
+          <div class="option-card" onclick="showYearSelection()">
+            <div class="option-icon"><img id="eye" src="eye.png"> </div>
+            <h3>VIEW</h3>
+            <p>View previous Accomplishment Report</p>
+          </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="create-ar-container" id="createnewAr">
+    <div class="create-ar-header">
+      Accomplishment Report (AR)
+    </div>
+    
+    <button class="create-ar-back-button" onclick="backMainoptionsAr()">
+      ←
+    </button>
+    
+    <div class="create-ar-report-section">
+      <h2 class="create-ar-report-title">Accomplishment Report (AR)</h2>
+      
+      <div class="create-ar-report-info">
+        <div class="create-ar-current-report">
+          CURRENT REPORT: <span class="create-ar-report-date">April 2025</span>
+        </div>
+        <div class="create-ar-status-section">
+          Status: <span id="create-ar-status">Pending</span>
+        </div>
+      </div>
+      
+      <div class="create-ar-table-container">
+        <table id="create-ar-accomplishmentTable" class="create-ar-table">
+          <thead class="create-ar-thead">
+            <tr>
+              <th class="create-ar-th">SUBJECT</th>
+              <th class="create-ar-th">UNITS</th>
+              <th class="create-ar-th">DATES</th>
+              <th class="create-ar-th">SCHEDULE</th>
+              <th class="create-ar-th">DAY</th>
+              <th class="create-ar-th">HOURS</th>
+              <th class="create-ar-th">ACTIONS</th>
+            </tr>
+          </thead>
+          <tbody class="create-ar-tbody">
+            <tr>
+              <td class="create-ar-td">DATABASE</td>
+              <td class="create-ar-td">3</td>
+              <td class="create-ar-td">04/09/25</td>
+              <td class="create-ar-td">Monday 8am</td>
+              <td class="create-ar-td">Monday</td>
+              <td class="create-ar-td">3</td>
+              <td class="create-ar-td">
+                <button class="create-ar-button create-ar-update-btn create-ar-edit-btn">Edit</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="create-ar-total-hours">
+        Total Hours: <span id="create-ar-totalHoursValue">3</span>
+      </div>
+      
+      <div class="create-ar-action-buttons">
+        <button class="create-ar-button create-ar-update-btn" id="create-ar-updateBtn">Update</button>
+        <button class="create-ar-button create-ar-download-btn" id="create-ar-downloadBtn">Download</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const modal = document.getElementById("employeeModal");
+    const addNewBtn = document.querySelector(".controls button:nth-child(4)");
+    const facultyLoadingContainer = document.getElementById("facultyLoadingContainer");
+    const facultyLoadingForm = document.getElementById("facultyLoadingForm");
+    const mainOptionsContainer = document.getElementById("mainOptionsContainer");
+    const yearSelectionContainer = document.getElementById("yearSelectionContainer");
+    const monthSelectionContainer = document.getElementById("monthSelectionContainer");
+    const formViewContainer = document.getElementById("formViewContainer");
+    const dtrloadingContainer = document.getElementById("dtrContainer")
+    const arloadingContainer = document.getElementById("arContainer")
+
+    
+    let currentYear = "";
+    let currentMonth = "";
+    
+    addNewBtn.addEventListener("click", () => {
+      modal.style.display = "flex";
+    });
+    
+    function closeModal() {
+      modal.style.display = "none";
+    }
+    
+    const facultyLoadingLinks = document.querySelectorAll('.faculty-loading-link');
+    facultyLoadingLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation(); 
+        facultyLoadingContainer.style.display = "block";
+        
+        showMainOptions();
+      });
+    });
+
+    const dtrloadinglinks = document.querySelectorAll('.dtr-link');
+    dtrloadinglinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation(); 
+        dtrloadingContainer.style.display = "block";
+        
+        showMainOptions();
+      });
+    });
+
+    const arloadinglinks = document.querySelectorAll('.ar-link');
+    arloadinglinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation(); 
+        arloadingContainer.style.display = "block";
+        
+        showMainOptions();
+      });
+    });
+    
+    function closeFacultyLoading() {
+      facultyLoadingContainer.style.display = "none";
+      dtrloadingContainer.style.display = "none";
+      arloadingContainer.style.display = "none";
+      showMainOptions();
+    }
+    
+    function showMainOptions() {
+      mainOptionsContainer.style.display = "flex";
+      yearSelectionContainer.style.display = "none";
+      monthSelectionContainer.style.display = "none";
+      formViewContainer.style.display = "none";
+      
+    }
+    
+    function showYearSelection() {
+      mainOptionsContainer.style.display = "none";
+      yearSelectionContainer.style.display = "block";
+      monthSelectionContainer.style.display = "none";
+      formViewContainer.style.display = "none";
+    }
+    
+    function showMonthSelection(year) {
+      currentYear = year;
+      document.querySelector("#monthSelectionContainer .month-header h3").textContent = "Year - " + year;
+      
+      mainOptionsContainer.style.display = "none";
+      yearSelectionContainer.style.display = "none";
+      monthSelectionContainer.style.display = "block";
+      formViewContainer.style.display = "none";
+    }
+    
+    function showFormView(month) {
+      currentMonth = month;
+      
+      mainOptionsContainer.style.display = "none";
+      yearSelectionContainer.style.display = "none";
+      monthSelectionContainer.style.display = "none";
+      
+      formViewContainer.style.display = "block";
+    }
+    
+    function hideCreateNewForm() {
+      createNewForm.style.display = "none";
+    }
+
+    function backToYearSelection() {
+      showYearSelection();
+    }
+    
+    function backToMonthSelection() {
+      showMonthSelection(currentYear);
+    }
+
+  
+
+  function showCreateNewForm() {
+    mainOptionsContainer.style.display = "none";
+    yearSelectionContainer.style.display = "none";
+    monthSelectionContainer.style.display = "none";
+    formViewContainer.style.display = "none";
+    
+    
+    document.getElementById("createNewFormContainer").style.display = "block";
+  }
+  function showcreatenewAr() {
+    mainOptionsContainer.style.display = "none";
+    yearSelectionContainer.style.display = "none";
+    monthSelectionContainer.style.display = "none";
+    formViewContainer.style.display = "none";
+    closeFacultyLoading();
+    
+    document.getElementById("createnewAr").style.display = "block";
+  }
+  function showCreateNewDtr() {
+    mainOptionsContainer.style.display = "none";
+    yearSelectionContainer.style.display = "none";
+    monthSelectionContainer.style.display = "none";
+    formViewContainer.style.display = "none";
+
+    document.getElementById("createnewDtr").style.display = "block";
+  }
+  
+  function saveNewForm() {
+    const subjectCode = document.getElementById("subjectCode").value;
+    const subjectDesc = document.getElementById("subjectDescription").value;
+    const day = document.getElementById("classDay").value;
+    const room = document.getElementById("classRoom").value;
+    const section = document.getElementById("classSection").value;
+    const timeStart = document.getElementById("scheduleStart").value;
+    const timeEnd = document.getElementById("scheduleEnd").value;
+    
+    const classTypes = [];
+    document.querySelectorAll('input[name="classType"]:checked').forEach(checkbox => {
+      classTypes.push(checkbox.value);
+    });
+    const classType = classTypes.join(", ");
+    
+    if (subjectCode && day && room) {
+      const tbody = document.querySelector("#class-schedule tbody");
+      const newRow = document.createElement("tr");
+      newRow.innerHTML = `
+        <td>${subjectCode}</td>
+        <td>${subjectDesc}</td>
+        <td>${day}</td>
+        <td>${room}</td>
+        <td>${section}</td>
+        <td>${timeStart} - ${timeEnd}</td>
+        <td>${classType}</td>
+      `;
+      tbody.appendChild(newRow);
+      
+      document.getElementById("subjectCode").value = "";
+      document.getElementById("subjectDescription").value = "";
+      document.getElementById("classRoom").value = "";
+      document.getElementById("classSection").value = "";
+      document.getElementById("scheduleStart").value = "";
+      document.getElementById("scheduleEnd").value = "";
+      document.querySelectorAll('input[name="classType"]').forEach(checkbox => {
+        checkbox.checked = false;
+      });
+    } else {
+      alert("Please fill in at least Subject Code, Day and Room");
+    }
+  }
+  
+  function backToMainOptions() {
+    mainOptionsContainer.style.display = "flex";
+    yearSelectionContainer.style.display = "none";
+    monthSelectionContainer.style.display = "none";
+    formViewContainer.style.display = "none";
+    document.getElementById("createnewDtr").style.display = "none";
+    document.getElementById("createnewAr").style.display = "none";
+    document.getElementById("createNewFormContainer").style.display = "none";
+  }
+  function backMainoptionsAr() {
+    yearSelectionContainer.style.display = "none";
+    monthSelectionContainer.style.display = "none";
+    formViewContainer.style.display = "none";
+    document.getElementById("createnewDtr").style.display = "none";
+    document.getElementById("createnewAr").style.display = "none";
+    document.getElementById("createNewFormContainer").style.display = "none";
+    document.getElementById("arContainer").style.display = "block";
+
+  }
+
+  function updateDropdownStyle(dropdown) {
+    dropdown.classList.remove("completed", "in-progress", "pending");
+    switch (dropdown.value) {
+      case "completed":
+        dropdown.classList.add("completed");
+        break;
+      case "in-progress":
+        dropdown.classList.add("in-progress");
+        break;
+      case "pending":
+        dropdown.classList.add("pending");
+        break;
+    }
+  }
+
+  document.querySelectorAll('.progress-dropdown').forEach(dropdown => {
+    updateDropdownStyle(dropdown);
+    dropdown.addEventListener('change', () => updateDropdownStyle(dropdown));
+  });
+
+  document.addEventListener('DOMContentLoaded', function() {
+      let create_ar_totalHours = 3;
+      
+      function create_ar_handleEdit() {
+        const create_ar_row = this.closest('tr');
+        const create_ar_cells = create_ar_row.querySelectorAll('.create-ar-td');
+        const create_ar_values = [];
+        
+        for (let i = 0; i < create_ar_cells.length - 1; i++) {
+          create_ar_values.push(create_ar_cells[i].textContent);
+        }
+        
+        create_ar_cells[0].innerHTML = `<input type="text" class="create-ar-input" value="${create_ar_values[0]}">`;
+        create_ar_cells[1].innerHTML = `<input type="number" class="create-ar-input" value="${create_ar_values[1]}">`;
+        create_ar_cells[2].innerHTML = `<input type="text" class="create-ar-input" value="${create_ar_values[2]}">`;
+        create_ar_cells[3].innerHTML = `<input type="text" class="create-ar-input" value="${create_ar_values[3]}">`;
+        
+        let create_ar_daySelect = `<select class="create-ar-select">
+          <option value="Monday" ${create_ar_values[4] === 'Monday' ? 'selected' : ''}>Monday</option>
+          <option value="Tuesday" ${create_ar_values[4] === 'Tuesday' ? 'selected' : ''}>Tuesday</option>
+          <option value="Wednesday" ${create_ar_values[4] === 'Wednesday' ? 'selected' : ''}>Wednesday</option>
+          <option value="Thursday" ${create_ar_values[4] === 'Thursday' ? 'selected' : ''}>Thursday</option>
+          <option value="Friday" ${create_ar_values[4] === 'Friday' ? 'selected' : ''}>Friday</option>
+          <option value="Saturday" ${create_ar_values[4] === 'Saturday' ? 'selected' : ''}>Saturday</option>
+          <option value="Sunday" ${create_ar_values[4] === 'Sunday' ? 'selected' : ''}>Sunday</option>
+        </select>`;
+        
+        create_ar_cells[4].innerHTML = create_ar_daySelect;
+        create_ar_cells[5].innerHTML = `<input type="number" class="create-ar-input create-ar-hours-input" value="${create_ar_values[5]}">`;
+        
+        create_ar_cells[6].innerHTML = `
+          <button class="create-ar-button create-ar-update-btn create-ar-save-btn" id="save">Save</button>
+          <button class="create-ar-button create-ar-download-btn create-ar-cancel-btn" id="cancel">Cancel</button>
+        `;
+        
+        const create_ar_saveBtn = create_ar_row.querySelector('.create-ar-save-btn');
+        const create_ar_cancelBtn = create_ar_row.querySelector('.create-ar-cancel-btn');
+        const create_ar_hoursInput = create_ar_row.querySelector('.create-ar-hours-input');
+        
+        create_ar_saveBtn.addEventListener('click', function() {
+          const create_ar_oldHours = parseInt(create_ar_values[5]) || 0;
+          const create_ar_newHours = parseInt(create_ar_hoursInput.value) || 0;
+          const create_ar_hoursDiff = create_ar_newHours - create_ar_oldHours;
+          
+          const create_ar_inputs = create_ar_row.querySelectorAll('.create-ar-input, .create-ar-select');
+          for (let i = 0; i < create_ar_cells.length - 1; i++) {
+            create_ar_cells[i].textContent = create_ar_inputs[i].value;
+          }
+          
+          create_ar_cells[6].innerHTML = '<button class="create-ar-button create-ar-update-btn create-ar-edit-btn">Edit</button>';
+          create_ar_row.querySelector('.create-ar-edit-btn').addEventListener('click', create_ar_handleEdit);
+          
+          create_ar_totalHours += create_ar_hoursDiff;
+          document.getElementById('create-ar-totalHoursValue').textContent = create_ar_totalHours;
+        });
+        
+        create_ar_cancelBtn.addEventListener('click', function() {
+          for (let i = 0; i < create_ar_cells.length - 1; i++) {
+            create_ar_cells[i].textContent = create_ar_values[i];
+          }
+          
+          create_ar_cells[6].innerHTML = '<button class="create-ar-button create-ar-update-btn create-ar-edit-btn">Edit</button>';
+          create_ar_row.querySelector('.create-ar-edit-btn').addEventListener('click', create_ar_handleEdit);
+        });
+      }
+      
+      const create_ar_editButtons = document.querySelectorAll('.create-ar-edit-btn');
+      create_ar_editButtons.forEach(button => {
+        button.addEventListener('click', create_ar_handleEdit);
+      });
+      
+      document.getElementById('create-ar-updateBtn').addEventListener('click', function() {
+        document.getElementById('create-ar-status').textContent = 'Updated';
+        alert('Report has been updated successfully!');
+      });
+      
+      document.getElementById('create-ar-downloadBtn').addEventListener('click', function() {
+        alert('Downloading Accomplishment Report...');
+      });
+    });
+
+  
+    function openUpdateModal(employeeId) {
+      const row = event.target.closest("tr");
+      const email = row.cells[2].innerText;
+      const name = row.cells[1].innerText.split(" ");
+      document.getElementById("employeeModal").style.display = "flex";
+      const inputs = document.querySelectorAll("#employeeModal input");
+      inputs[0].value = email;
+      inputs[1].value = name[0] || "";
+      inputs[2].value = name[1] || "";
+      inputs[3].value = "";
+      document.querySelector("#employeeModal .cancel-yellow").innerText = "Update";
+    }
+
+    function deleteEmployee(employeeId) {
+      if (confirm("Are you sure you want to delete this employee?")) {
+        const row = event.target.closest("tr");
+        row.remove();
+      }
+    }
+
+    document.querySelector("#employeeModal .cancel-yellow").addEventListener("click", function () {
+      const inputs = document.querySelectorAll("#employeeModal input");
+      const email = inputs[0].value;
+      const fname = inputs[1].value;
+      const lname = inputs[2].value;
+      const fullName = fname + " " + lname;
+
+      const isUpdate = this.innerText === "Update";
+      if (isUpdate) {
+        const row = document.querySelector("#employee-table tr.editing");
+        if (row) {
+          row.cells[1].innerText = fullName;
+          row.cells[2].innerText = email;
+          row.classList.remove("editing");
+        }
+      } else {
+        const tbody = document.getElementById("employee-table");
+        const newRow = document.createElement("tr");
+        newRow.innerHTML = `
+          <td>NEW</td>
+          <td>${fullName}</td>
+          <td>${email}</td>
+          <td>
+            <select class="progress-dropdown">
+              <option value="completed">Completed</option>
+              <option value="in-progress">In Progress</option>
+              <option value="pending">Pending</option>
+            </select>
+          </td>
+          <td>
+            <div class="dropdown">
+              <button>View</button>
+              <div class="dropdown-container">
+                <div class="dropdown-content">
+                  <a href="#" class="faculty-loading-link">Faculty Loading Form</a>
+                  <a href="#" class="dtr-link">Daily Time Record</a>
+                  <a href="#" class="ar-link">Accomplishment Report</a>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <button class="btn btn-outline" onclick="openUpdateModal('NEW')">Update</button>
+            <button class="btn btn-outline" onclick="deleteEmployee('NEW')">Delete</button>
+          </td>`;
+        tbody.appendChild(newRow);
+      }
+      closeModal();
+    });
+    
+</script>
+</body>
+</html>
